@@ -3,6 +3,8 @@ import { hightlightsSlides } from '../constants'
 import gsap from 'gsap';
 import { pauseImg, playImg, replayImg } from '../utils';
 import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from "gsap/all";
+gsap.registerPlugin(ScrollTrigger);
 
 export default function VideoCarousel() {
     const videoRef =useRef([]);
@@ -97,7 +99,7 @@ export default function VideoCarousel() {
 
            
             const animUpdate =() =>{
-                anim.progress(videoRef.current[videoId].currentTime/
+                anim.progress(videoRef.current[videoId].currentTime /
                 hightlightsSlides[videoId].videoDuration)
             }
             
@@ -119,12 +121,13 @@ export default function VideoCarousel() {
             case 'video-reset':
                 setVideo((prevVideo)=>({...prevVideo,isLastVideo:false,videoId:0}))
                 break;
-            case 'play':
-                setVideo((prevVideo)=>({...prevVideo,isPlaying:!prevVideo.isPlaying}))
-                break;
             case 'pause':
                 setVideo((prevVideo)=>({...prevVideo,isPlaying:!prevVideo.isPlaying}))
                 break;
+            case 'play':
+                setVideo((prevVideo)=>({...prevVideo,isPlaying:!prevVideo.isPlaying}))
+                break;
+            
             default:
                 return video;
         }
@@ -141,7 +144,7 @@ export default function VideoCarousel() {
                                 className={`${list.id === 2 && 'translate-x-44'} pointer-events-none`}
                                 key={list.id} ref={(el=>(videoRef.current[i]=el))}
                                 onEnded={()=>{
-                                    i !== 3 ? handleProcess('video-end' ,i)
+                                    i !== 3 ? handleProcess('video-end',i)
                                     :handleProcess('video-last')
                                 }}
                                 onPlay={()=>{
